@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="../todos.css">
+</head>
+
+<body>
+  <div id="app">
+    <section class="todoapp">
+      <header class="header">
+        <h1>Todos</h1>
+        <input type="text" class="new-todo" placeholder="Ajouter une tache" v-model="newTaskName" @keyup.enter="store">
+      </header>
+      <div class="main">
+        <input type="checkbox" id="toggle-all" class="toggle-all" @click="setAllAccomplished" v-model="allDone">
+        <label for="toggle-all">Mark all as complete</label>
+
+
+
+        <ul class="todo-list" v-for="task in tasks">
+
+          <li class="todo " :class="{ 'completed ' : task.completed , 'editing ' : task.editMode }"
+            @dblclick="toggleEditMode(task)">
+            <div class="view" :class="{ 'edit ' : task.editMode }">
+              <input type="checkbox" class="toggle" @click="changeTaskState(task)" @click="checkAllCompleted"
+                v-model="task.completed">
+              <label>{{ task.name }}</label>
+              <button class="destroy" @click="deleteTask(task)"></button>
+            </div>
+            <input type="text" class="edit" @keyup.enter="edit(task)" @keyup.esc="cancelEdit(task)"
+              v-model="task.editName">
+          </li>
+
+        </ul>
+
+
+
+      </div>
+      <footer class="footer" v-if="tasks.length > 0">
+        <span class="todo-count"><strong>{{computedRemaingTasks}}</strong> tâches à faire</span>
+        <ul class="filters">
+          <li><a href="/todos.html?filter=all" class="selected">Toutes</a></li>
+          <li><a href="/todos.html?filter=todo">À faire</a></li>
+          <li><a href="/todos.html?filter=done">Faites</a></li>
+        </ul>
+        <button v-if="computedTasksDone" class="clear-completed" @click="clearAccomplished">Clear
+          accomplished</button>
+      </footer>
+    </section>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
